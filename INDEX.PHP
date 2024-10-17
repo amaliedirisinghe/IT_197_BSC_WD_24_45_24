@@ -28,7 +28,7 @@
                     
                     <!-- Card body for login form -->
                     <div class="card-body">
-                        <form action="" method="POST"> <!-- Login form with POST method -->
+                        <form action="C:\xampp\htdocs\IT_197_BSC_WD_24_45_24\LIB\ROUTE\Registration.php" method="POST"> <!-- Login form with POST method -->
 
                             <!-- Form group for Username input -->
                             <div class="form-group mt-3">
