@@ -1,3 +1,15 @@
+<?php
+
+//include function page
+include_once('lib//functions/userFunction.php');
+if(isset($_POST['btnLogin'])){
+    $result =Authentication($_POST['userName'],$_POST['userPass']);
+    echo($result);
+}
+
+?>
+
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -44,7 +56,7 @@
 
                             <!-- Form group for Submit button -->
                             <div class="form-group mt-3">
-                                <input type="submit" value="Login" class="btn btn-outline-warning btn-sm"> <!-- Login button with Bootstrap styling -->
+                                <input type="submit" value="Login" name="btnLogin" class="btn btn-outline-warning btn-sm"> <!-- Login button with Bootstrap styling -->
                             </div>
 
                         </form>
@@ -81,7 +93,7 @@
                             <!-- Form group for Password input -->
                             <div class="form-group mt-3">
                                 <label for="UserPass" style="color:white;">Enter your Password</label>
-                                <input type="text" name="UserPass" id="UserPass" class="form-control"> <!-- Fixed typo in class 'form-cntrol' to 'form-control' -->
+                                <input type="password" name="UserPass" id="UserPass" class="form-control"> <!-- Fixed typo in class 'form-cntrol' to 'form-control' -->
                             </div>
 
                             <!-- Form group for Phone input -->

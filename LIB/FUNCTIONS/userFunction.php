@@ -43,5 +43,27 @@ function userRegistration($userName, $userEmail, $userpass, $userPhone, $userNic
 
 }
 
+//login function
+function Authentication($userName,$userpass){
+    //call database connection
+
+    $db_conn=Connection();
+    $sqlFetchUser="SELECT * FROM login_tbl WHERE login_email='$userName';";
+    $sqlResult= mysqli_quey($db_conn,$sqlFetchUser);
+
+    //check database connection errors
+    if(mysqli_connect_error($sqlResult));
+}
+
+
+    //convert user password into a hash value
+    $newpass= md5($userPass);
+
+    //check the number of rows
+    $norows=mysqli_num_rows($sqlResult);
+
+    //validating the number of records > 0 or not
+    if 
+
 
 ?>
