@@ -1,69 +1,96 @@
-<?php
+<?php 
 
-//include database connection
-include_once(db_conn.php);
+// Include database connection
+include_once('db_conn.php'); // Fixed to wrap db_conn.php in quotes for file inclusion
 
-//create user Registration function
-
-function userRegistration($userName, $userEmail, $userpass, $userPhone, $userNic){
-    //create database connection
+// Create user registration function
+function userRegistration($user_name, $user_email, $user_pass, $user_phone, $user_nic){
+    // Create database connection
     $db_conn = Connection();
-    //data insert query
-    $insertSql - "INSERT INTO user_tbl(user_name, user_email, user_phone, user_nic, user_status)
-    VALUES('$userName','$userEmail','$userPhone','$userNic',1);";
 
-    $sqlResult = mysqli_query($db_conn,$insertSql);
+    // Data insert query
+    $insertSql = "INSERT INTO user_tbl (user_name, user_email, user_phone, user_nic, user_status) 
+                  VALUES ('$user_name', '$user_email', '$user_phone', '$user_nic', 1);";
 
-    //check database connection errors
-    if(mysqli_connect_error($sqlResult)){
-        echo(mysqli_connect_error($sqlResult));
+    // Execute the insert query
+    $sqlResult = mysqli_query($db_conn, $insertSql);
+
+    // Check for query execution errors
+    if (!$sqlResult) {
+        echo mysqli_error($db_conn); // Correct error check
+        return;
     }
 
-    //if the registration result is success we can feed data into the login table also
-    if($sqlResult>0){
-        //use MD5 method to our password
-        $newPassword = md5($userpass);
-        
-        $insertLogin="INSERT INTO login_tbl(login_email,login_pwd,login_role,login_status)
-        VALUES('$userEmail','$newPassword','user',1);";
+    // If registration is successful, insert data into the login table
+    if ($sqlResult) {
+        // Use MD5 to hash the password
+        $hashedPassword = md5($user_pass);
 
-        $loginResult=mysqli_query(db_conn,$insertLogin);
+        // Insert login credentials into login_tbl
+        $insertLogin = "INSERT INTO login_tbl (login_email, login_pwd, login_role, login_status) 
+                        VALUES ('$user_email', '$hashedPassword', 'user', 1);";
 
-        //check database connection errors
-    if(mysqli_connect_error($sqlResult)){
-        echo(mysqli_connect_error($sqlResult));
+        $loginResult = mysqli_query($db_conn, $insertLogin);
+
+        // Check for query execution errors for login_tbl
+        if (!$loginResult) {
+            echo mysqli_error($db_conn);
+            return;
+        }
+
+        return "Your registration was successful!";
+    } else {
+        return "Please try again!";
     }
-    return("Your Registration Success!!!");
-
-    }
-    else{
-        return("Please Try Again!!");
-    }
-
-
 }
 
-//login function
-function Authentication($userName,$userpass){
-    //call database connection
+// User authentication (login) function
+function Authentication($user_name, $user_pass){
+    // Call database connection
+    $db_conn = Connection();
 
-    $db_conn=Connection();
-    $sqlFetchUser="SELECT * FROM login_tbl WHERE login_email='$userName';";
-    $sqlResult= mysqli_quey($db_conn,$sqlFetchUser);
+    // Fetch user details from login_tbl based on email (login email is username)
+    $sqlFetchUser = "SELECT * FROM login_tbl WHERE login_email='$user_name';";
+    $sqlResult = mysqli_query($db_conn, $sqlFetchUser);
 
-    //check database connection errors
-    if(mysqli_connect_error($sqlResult));
+    // Check if query execution failed
+    if (!$sqlResult) {
+        echo mysqli_error($db_conn);
+        return;
+    }
+
+    // Hash the input password for comparison
+    $hashedPassword = md5($user_pass);
+
+    // Check if the query returned any rows
+    $norows = mysqli_num_rows($sqlResult);
+    
+    // If no rows returned, no user found
+    if ($norows == 0) {
+        return "No records found!";
+    }
+
+    // Fetch the result row as an associative array
+    $rec = mysqli_fetch_assoc($sqlResult);
+
+    // Validate the user's password
+    if ($rec['login_pwd'] == $hashedPassword) {
+        // Validate the user's account status
+        if ($rec['login_status'] == 1) {
+            // Check if the user is an admin
+            if ($rec['login_role'] == "admin") {
+                // Redirect admin to the admin dashboard
+                header('location:LIB/VIEWS/Dashboards/admin.php');
+            } else {
+                // Redirect user to the user dashboard
+                header('location:LIB/VIEWS/Dashboards/user.php');
+            }
+        } else {
+            return "Your account has been deactivated!";
+        }
+    } else {
+        return "Your password is incorrect. Please try again.";
+    }
 }
-
-
-    //convert user password into a hash value
-    $newpass= md5($userPass);
-
-    //check the number of rows
-    $norows=mysqli_num_rows($sqlResult);
-
-    //validating the number of records > 0 or not
-    if 
-
 
 ?>

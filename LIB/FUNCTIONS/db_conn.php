@@ -1,28 +1,18 @@
-<?php
- function Connection(){
-    $server = "localhost"; //server
+<?php 
+function Connection() {
+    $server = "localhost"; // Server address
+    $user = "root"; // Database username
+    $password = ""; // Database password
+    $db_name = "ums"; // Database name
 
-    $user = "root"; //database user
+    // Create database connection using mysqli_connect
+    $conn = mysqli_connect($server, $user, $password, $db_name);
 
-    $password = ""; //database password
-
-    $db_name = "ums"; //database name
-
-    //create database connection
-    $conn = mysqli_connection($server,$user,$password,$db_name);
-
-    if(!$conn){
-        return("Database Error");
+    // Check for connection errors
+    if (!$conn) {
+        return "Database Connection Error: " . mysqli_connect_error(); // Detailed error message
+    } else {
+        return $conn; // Return the connection object
     }
-    else{
-        return($conn);
-    }
-
-
- }
-
-
-
-
-
+}
 ?>
