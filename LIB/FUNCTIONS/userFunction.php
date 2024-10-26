@@ -80,10 +80,10 @@ function Authentication($user_name, $user_pass){
             // Check if the user is an admin
             if ($rec['login_role'] == "admin") {
                 // Redirect admin to the admin dashboard
-                header('location:LIB/VIEWS/Dashboards/admin.php');
+                header('Location: LIB/VIEWS/Dashboards/admin.php');
             } else {
                 // Redirect user to the user dashboard
-                header('location:LIB/VIEWS/Dashboards/user.php');
+                header('Location: LIB\VIEWS\Dashboards\user.php');
             }
         } else {
             return "Your account has been deactivated!";
