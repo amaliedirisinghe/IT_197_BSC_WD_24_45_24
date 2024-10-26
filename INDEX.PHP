@@ -107,6 +107,6 @@ if (isset($_POST['btnLogin'])) {
 
         </div> <!-- End of row -->
     </div> <!-- End of container -->
-
+.
 </body>
 </html>
